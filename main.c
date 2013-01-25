@@ -15,10 +15,10 @@
 
 
  *
- * AUTORES: Elias Angulo Klein
+ * AUTHOR: Elias Angulo Klein
  *
 
- * FECHA: 22/11/2010
+ * DATE: 2010/22/11
  *
  */
 
@@ -26,76 +26,75 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "funciones.h"
+#include "functions.h"
 
 int main() {
 	int error = 1;
-	int seleccion;
+	int selection;
 	struct sudoku sk = {
 
-	{ { PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
+	{ { DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT }, { DOT, DOT, DOT, DOT,
+			DOT, DOT, DOT, DOT, DOT }, { DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT,
+			DOT },
 
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
+	{ DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT }, { DOT, DOT, DOT, DOT, DOT,
+			DOT, DOT, DOT, DOT },
+			{ DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT },
 
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO },
-	{ PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO, PUNTO } }, { "" },
-			0,
+			{ DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT, DOT }, { DOT, DOT, DOT,
+					DOT, DOT, DOT, DOT, DOT, DOT }, { DOT, DOT, DOT, DOT, DOT,
+					DOT, DOT, DOT, DOT } }, { "" }, 0,
 
 	};
 
 	do {
 
-		seleccion = Seleccion(); //Ejecuta la seleccion del menu y la guarda para el sqitch
+		selection = Selection();
 
-		switch (seleccion) {
+		switch (selection) {
 
-		case JUGAR:
+		case PLAY:
 
-			error = EmpezarPartida(&sk); //Solo si error == 1 se llamara a Jugar(). 0 == error en esa funcion,
+			error = StartGame(&sk); //Solo si error == 1 se llamara a Play(). 0 == error en esa funcion,
 			if (error == 0 || error == -1)
 				return 0; // -1 == Salir del juego (Vuelve al menu principal).
 			do {
 
-				error = Jugar(&sk);
+				error = Play(&sk);
 				if (error == -1 || error == -2) {
-					printf("Asi ha quedado el tablero:\n");
-					DibujarTablero(&sk);
+					printf("The grid is like this:\n");
+					DrawTable(&sk);
 					fflush(stdin);
 					getchar();
 					break;
 				} //Continuara jugando mientras no se pida SAlir o GuardarPartida
 
-			} while (error == 1 || sk.espacios > 0); //Continuara mientras haya errores o queden espacios.
+			} while (error == 1 || sk.spaces > 0); //Continuara mientras haya errores o queden espacios.
 
 			break;
 
-		case CARGAR:
+		case LOAD:
 
-			error = LeerPartidasGuardadas(&sk); // Muestra las partidas de almacenadas.txt
-			error = CargarPartida(&sk); // Carga la partida seleccionada en la funcion anterior.
+			error = LoadSavedGames(&sk); // Muestra las partidas de almacenadas.txt
+			error = LoadGame(&sk); // Carga la partida seleccionada en la funcion anterior.
 			if (error == 0 || error == -1)
 				return 0; // Volver al menu principal si ha habido errores.
 			do {
 
-				error = Jugar(&sk);
+				error = Play(&sk);
 				if (error == -1 || error == -2) {
-					printf("Asi ha quedado el tablero:\n");
-					DibujarTablero(&sk);
+					printf("The grid is like this:\n");
+					DrawTable(&sk);
 					getchar();
 					break;
 				} //Continuara jugando mientras no se pida SAlir o GuardarPartida
 
-			} while (error == 1 || sk.espacios > 0); //Continuara mientras haya errores o queden espacios.
+			} while (error == 1 || sk.spaces > 0); //Continuara mientras haya errores o queden espacios.
 			break;
 
-		case SALIR:
+		case EXIT:
 
-			printf("\nHASTA PRONTO!!!!!\n\n");
+			printf("\nSEE YOU SOON!!!!!\n\n");
 			getchar();
 			break;
 
@@ -104,7 +103,7 @@ int main() {
 			break;
 		}
 
-	} while (seleccion != SALIR);
+	} while (selection != EXIT);
 
 	return 0;
 }
